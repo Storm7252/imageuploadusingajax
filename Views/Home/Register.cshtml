@@ -1,0 +1,77 @@
+﻿@model Student;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+    <span id="sub" style="display:none" claas="bg-warning rounded-pill opacity-50">Your Form has been submitted</span>
+    <span id="val" style="display:none" claas="bg-warning rounded-pill opacity-50">Please Enter Valid Data</span>
+<div class="container">
+    <span>Register Student</span>
+    <hr />
+    <form id="stu" class="mt-5" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label  class="form-label">Name:</label>
+            <input type="text" asp-for="Name" class="form-control rounded-pill" id="Name" required>
+            
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Address:</label>
+            <input type="text" asp-for="Address" class ="form-control rounded-pill" id="Address" required>
+                
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Age:</label>
+            <input type="file" asp-for="imagefile" class ="form-control rounded-pill" id="Age" required>
+            
+                
+        </div>
+        <button type="submit" class="btn btn-outline-secondary rounded-pill" onclick="register()">Submit</button>
+    </form>
+</div>
+
+
+    <script>
+        function register(){
+                    event.preventDefault();
+                    let formData = new FormData($("#stu")[0]);
+                       console.log(formData)
+                    if ($("#stu")[0].checkValidity()) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("Addstudent","Home")',
+                            data: formData,
+                            contentType:false,
+                            processData:false,
+                            success: function (response)      
+                            {
+                                console.log(response)
+                                $("#sub").fadeIn();
+                                setTimeout(()=>{
+                                    $("#sub").fadeOut();
+                                },3000)
+                            },
+                            error: function (err, statuscode) {
+                                console.log(err)
+                            }
+                        });
+                    }
+                else
+                {
+                    console.log("form is invalid")
+                    $("#val").fadeIn();
+                    setTimeout(() => {
+                        $("#val").fadeOut();
+                    }, 3000)
+                    $('#id').addClass('border border-danger')
+                    $('#Name').addClass('border border-danger')
+                    $('#Address').addClass('border border-danger')
+                    $('#Age').addClass('border border-danger')
+
+                }
+        }
+    </script>
+
+

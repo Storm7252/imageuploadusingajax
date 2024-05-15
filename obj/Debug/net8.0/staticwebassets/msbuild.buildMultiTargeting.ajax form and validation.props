@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ajax form and validation.props" />
+</Project>
